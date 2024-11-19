@@ -19,7 +19,7 @@ export const NoteState = (props) => {
             },
         });
         const noteJson = await res.json();
-        setNotes(notes.concat(noteJson))
+        setNotes(noteJson)
     }
 
 
@@ -41,16 +41,13 @@ export const NoteState = (props) => {
     //Delete Note
     const deleteNote = async (id) => {
         const url = host + '/api/notes/deletenote/' + id;
-        const res = await fetch(url, {
+        await fetch(url, {
             method: 'DELETE',
             headers: {
                 'content-Type': 'application/json',
                 'auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjcyZDIwMWNlMDlkNTM0NWFmNmY0MWJlIn0sImlhdCI6MTczMjA0MDAyNn0.SdBey-7HglBiaeS69g7aB5-3C4M9V_spXZmIbEB4hYc'
             },
         });
-
-        // eslint-disable-next-line no-unused-vars
-        const noteJson = await res.json();
 
         const newNotes = notes.filter((note) => { return note._id !== id })
         setNotes(newNotes)
