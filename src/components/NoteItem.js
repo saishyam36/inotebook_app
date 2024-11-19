@@ -14,7 +14,8 @@ const NoteItem = (props) => {
                         <i className="fa-solid fa-trash mx-2" onClick={() => { deleteNote(note._id) }}></i>
                         <i className="fa-regular fa-pen-to-square mx-2" onClick={() => { updateNote(note) }}></i>
                     </div>
-                    <p className="card-text"> {note.description}</p>
+                    <p className="card-text">{note.description}</p>
+                    <small className="card-text"><span class="badge text-bg-info">{note.tag}</span></small>
                 </div>
             </div>
         </div>
