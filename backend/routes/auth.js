@@ -13,21 +13,20 @@ router.post('/createUser', [
     body('name', 'Minimum length is 5').isLength({ min: 5 }),
     body('email', 'Enter a valid email').isEmail(),
     body('password', 'Minimum length is 6').isLength({ min: 6 }),
+    body('password', 'Maximum length is 18').isLength({ max: 18 }),
 ], async (req, res) => {
     //if there are any errors, return bad request and the error
     const errors = validationResult(req);
+    let success = false;
     if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
+        return res.status(400).json({ success, errors: errors.array() });
     }
-    //saving whole body to db
-    // const user = userModel(req.body);
-    // user.save();
 
     try {
         //checking weather email user already exist or not. if exist return error (like this also we can send errors), if no email present create data with req.body
         let user = await userModel.findOne({ email: req.body.email });
         if (user) {
-            return res.status(400).json({ error: "User already exists" })
+            return res.status(400).json({ success, error: "User already exists" })
         }
         const salt = await bcrypt.genSalt(10);
         const secPass = await bcrypt.hash(req.body.password, salt);
@@ -42,8 +41,8 @@ router.post('/createUser', [
             }
         }
         const authToken = await jwt.sign(data, JWT_SECRET);
-
-        res.json({ authToken: authToken })
+        success = true;
+        res.json({ success, authToken: authToken })
     } catch (error) {
         console.log(error.message)
         res.status(500).send(error.message, "Some unexpected error occured")
@@ -71,13 +70,14 @@ router.post('/login', [
 
     const { email, password } = req.body;
     try {
+        let success = false;
         let user = await userModel.findOne({ email });
         if (!user) {
-            return res.status(400).json({ error: "Please try to login with correct credentials" })
+            return res.status(400).json({ success, error: "Please try to login with correct credentials" })
         }
         const passwordCompare = await bcrypt.compare(password, user.password);
         if (!passwordCompare) {
-            return res.status(400).json({ error: "Please try to login with correct credentials" })
+            return res.status(400).json({ success, error: "Please try to login with correct credentials" })
         }
         const data = {
             user: {
@@ -85,7 +85,8 @@ router.post('/login', [
             }
         }
         const authToken = await jwt.sign(data, JWT_SECRET);
-        res.json({ authToken: authToken })
+        success = true
+        res.json({ success, authToken: authToken })
     } catch (error) {
         console.log(error.message)
         res.status(500).send("Internal Server Error")
@@ -93,7 +94,7 @@ router.post('/login', [
 })
 
 //Route3: Get loggedin User Details using: POST "/api/auth/getUser". Login Required
-router.post('/getUser', fetchUser , async (req, res) => {
+router.post('/getUser', fetchUser, async (req, res) => {
     try {
         const userId = req.user.id;
         const user = await userModel.findById(userId).select("-password")
