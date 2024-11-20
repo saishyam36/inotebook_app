@@ -24,15 +24,16 @@ const UserLogin = (props) => {
     const json = await res.json();
     if (json.success) {
       localStorage.setItem('token', json.authToken)
-      navigate('/')
       props.showAlert("User Loggedin Successfully", "success")
+      navigate('/')
     } else {
       props.showAlert("Invalid Credentials", "danger")
     }
   }
 
   return (
-    <div>
+    <div className='mt-2'>
+      <h2 className='my-3'>Login to iNotebook</h2>
       <form onSubmit={handleOnSubmit}>
         <div className="mb-3">
           <label htmlFor="email" className="form-label">Email address</label>

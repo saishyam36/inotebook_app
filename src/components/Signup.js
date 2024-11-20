@@ -25,15 +25,16 @@ const Signup = (props) => {
         const json = await res.json();
         if (json.success) {
             localStorage.setItem('token', json.authToken)
-            navigate('/')
             props.showAlert("User Created Successfully", "success")
+            navigate('/')
         } else {
             props.showAlert("Invalid Details", "danger")
         }
     }
 
     return (
-        <div>
+        <div className='mt-3'>
+            <h2 className='my-3'>SignUp to iNotebook</h2>
             <form onSubmit={handleOnSubmit}>
                 <div className="mb-3">
                     <label htmlFor="name" className="form-label">Name</label>
