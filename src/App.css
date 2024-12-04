@@ -1,0 +1,33 @@
+.wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .accordian {
+    width: 500px;
+  }
+  
+  .accordion-item {
+    background: #1d54c2;
+    margin-bottom: 10px;
+    padding: 10px 20px;
+  }
+  
+  .accordion-header {
+    color: #f6f3f3;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+  }
+  
+  .accordion-body {
+    color: #f6f3f3;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
