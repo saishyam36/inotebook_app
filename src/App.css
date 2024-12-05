@@ -31,3 +31,11 @@
     justify-content: space-between;
     align-items: center;
   }
+
+  .active{
+    color: #fff700e3;
+  }
+
+  .inactive{
+    color: #000000;
+  }
