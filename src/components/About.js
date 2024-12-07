@@ -9,6 +9,8 @@ const About = () => {
 
   const handleClick = (getCurrentId) => {
     setSelected(getCurrentId)
+    setMultipleSelected([])
+
   }
 
   const handleMultiSelection = (getCurrentId) => {
@@ -20,8 +22,8 @@ const About = () => {
       itemsInMultple.splice(indexOfCurrentId, 1)
     }
     setMultipleSelected(itemsInMultple)
+    setSelected(null)
   }
-
 
   return (
     <>
@@ -42,13 +44,13 @@ const About = () => {
                   </h2>
                   {
                     enableMultiSelection ? multipleSelected.indexOf(dataItem.id) !== -1 &&
-                      (<div id={dataItem.answer} className="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+                      (<div id={dataItem.id} className="accordion-collapse collapse show" data-bs-parent="#accordionExample">
                         <div className="accordion-body">
                           <strong>{dataItem.answer}</strong>
                         </div>
                       </div>)
                       : selected === dataItem.id &&
-                      (<div id={dataItem.answer} className="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+                      (<div id={dataItem.id} className="accordion-collapse collapse show" data-bs-parent="#accordionExample">
                         <div className="accordion-body">
                           <strong>{dataItem.answer}</strong>
                         </div>
