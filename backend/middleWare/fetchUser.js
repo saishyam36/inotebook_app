@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 
-const JWT_SECRET = "jwtsecrettoken";
+const JWT_SECRET = process.env.JWT_SECRET;
 
 
 export const fetchUser = async (req, res, next) => {

@@ -1,5 +1,5 @@
 const flagData={
-    starRating: true,
+    starRating: false,
     accordian: true
 }
 
