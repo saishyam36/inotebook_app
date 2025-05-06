@@ -1,3 +1,15 @@
+# iNotebook - Your Cloud Notebook
+
+iNotebook is a full-stack web application that allows you to create, read, edit, and delete your notes securely in the cloud. Built with React, HTML, CSS, and Bootstrap for the front-end, iNotebook provides a user-friendly and responsive interface to manage your personal notes from any device.  Key features include:
+
+CRUD Functionality: Easily create, read, update, and delete notes.
+
+User Authentication: Secure login and registration system to protect your data.
+
+Responsive Design: Adapts seamlessly to different screen sizes.
+
+Bootstrap Styling: Clean and modern UI with Bootstrap.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
