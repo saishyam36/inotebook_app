@@ -1,72 +1,37 @@
-import React, { useState } from 'react'
-import data from '../accordianData';
+import React, { useContext } from 'react'
 import StarRating from './StarRating';
+import Accordian from './Accordian';
+import { FeatureFlagsContext } from '../feature-flag/context';
 
-const About = () => {
-  const [selected, setSelected] = useState(null);
-  const [enableMultiSelection, setEnableMultiSelection] = useState(false);
-  const [multipleSelected, setMultipleSelected] = useState([]);
+export function About() {
 
-  const handleClick = (getCurrentId) => {
-    setSelected(getCurrentId)
-    setMultipleSelected([])
-
-  }
-
-  const handleMultiSelection = (getCurrentId) => {
-    let itemsInMultple = [...multipleSelected];
-    const indexOfCurrentId = itemsInMultple.indexOf(getCurrentId);
-    if (indexOfCurrentId === -1) {
-      itemsInMultple.push(getCurrentId)
-    } else {
-      itemsInMultple.splice(indexOfCurrentId, 1)
+  const { loading, enabledFlags } = useContext(FeatureFlagsContext);
+  const componentToRender = [
+    {
+      key: 'starRating',
+      component: <StarRating noOfStars={10} />
+    },
+    {
+      key: 'accordian',
+      component: <Accordian />
     }
-    setMultipleSelected(itemsInMultple)
-    setSelected(null)
+  ]
+
+  const checkEnabledFlags = (getCurrentKey) => {
+    return enabledFlags[getCurrentKey]
   }
+
+  if (loading) return <h1>Loading Data...</h1>;
+
 
   return (
-    <>
-      <div className="wrapper">
-        <button type='button' className="btn btn-secondary" onClick={() => setEnableMultiSelection(!enableMultiSelection)}>Enable Multi Selection
-          {enableMultiSelection ? <span className="badge text-bg-success"> </span>
-            : <span className="badge text-bg-danger"> </span>}
-        </button>
-        <div className="accordian">
-          {
-            data && data.length > 0 ?
-              data.map(dataItem => (
-                <div className="accordion-item" key={dataItem.id}>
-                  <h2 className="accordion-header">
-                    <button onClick={enableMultiSelection ? () => handleMultiSelection(dataItem.id) : () => handleClick(dataItem.id)} className="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                      {dataItem.question}
-                    </button>
-                  </h2>
-                  {
-                    enableMultiSelection ? multipleSelected.indexOf(dataItem.id) !== -1 &&
-                      (<div id={dataItem.id} className="accordion-collapse collapse show" data-bs-parent="#accordionExample">
-                        <div className="accordion-body">
-                          <strong>{dataItem.answer}</strong>
-                        </div>
-                      </div>)
-                      : selected === dataItem.id &&
-                      (<div id={dataItem.id} className="accordion-collapse collapse show" data-bs-parent="#accordionExample">
-                        <div className="accordion-body">
-                          <strong>{dataItem.answer}</strong>
-                        </div>
-                      </div>)
-                  }
-                </div>
-              ))
-              : <div>No Data About noteBook!</div>
-          }
-        </div>
-      </div>
-      <div className="position-absolute bottom-0 start-50 translate-middle-x">
-        <StarRating noOfStars={10}/>
-      </div>
-    </>
-  )
+    <div>
+      {
+        componentToRender.map((componentItem) => checkEnabledFlags(componentItem.key) ? componentItem.component : null)
+      }
+    </div>
+  );
 }
+
 
 export default About

@@ -3,11 +3,13 @@ import express from "express";
 import { authRouter } from './routes/auth.js'
 import { notesRouter } from './routes/notes.js'
 import cors from 'cors';
+import dotenv from 'dotenv';
+dotenv.config();
 
 await connectToMongo();  //run command nodemon .\index.js to connect mongo db
 
 const app = express()
-const port = 5000
+const port = process.env.PORT
 
 app.use(cors())
 app.use(express.json())

@@ -5,7 +5,7 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { fetchUser } from "../middleWare/fetchUser.js";
 
-const JWT_SECRET = "jwtsecrettoken";
+const JWT_SECRET = process.env.JWT_SECRET;
 const router = express.Router();
 
 //Route1: creating a user using: POST "/api/auth/createUser". Login not requiered
